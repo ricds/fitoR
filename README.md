@@ -1,27 +1,43 @@
 # fitossociologia.R
 
 Função para cálculo dos descritores fitossociológicos e similaridade entre sítios
+
 Autores originais:  Alexandre Gabriel Christo e Pedro Higuchi - 25/03/2012
+
 Modificações: Ricardo Dal'Agnol da Silva
 
+
+Changelog:
+
 Data: 06/06/2013
+
 *Add: Riqueza, Índices Shannon-Wiener e J de Pielou
+
 *Add: função similaridade(area1,area2)
 
+
 Data: 10/06/2013
+
 *Corrigido: equação da área basal
+
 *Add: desvios da densidade e área basal
+
 *Add: escreve no .csv a densidade, ab, riq, shannon e pielou
+
 *Add: testa se existe a variavel cap ou dap, pode-se usar tanto um quanto o outro
 
 Data: 12/06/2013
+
 *Corrigido: equação de sorensen
+
 *Add: possibilidade de colocar um nome para o arquivo.csv dos resultados
 
 Data: 17/06/2013
+
 *Add: contabiliza CAP/DAP de múltiplos fustes no DoA e área basal, max=10
 
 Data: 27/06/2013
+
 *Add: multiplos fustes não tem mais limite de número (antes era 10)
 
 Observações:
