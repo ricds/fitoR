@@ -1,65 +1,65 @@
 #----------------------------------------------------------------------------------------------
-# Fun√ß√£o para c√°lculo dos descritores fitossociol√≥gicos e similaridade entre s√≠tios
+# FunÁ„o para c·lculo dos descritores fitossociolÛgicos e similaridade entre sÌtios
 #
 # Autores originais:  Alexandre Gabriel Christo e Pedro Higuchi - 25/03/2012
 #
-# Modifica√ß√µes: Ricardo Dal'Agnol da Silva
+# ModificaÁıes: Ricardo Dal'Agnol da Silva
 #
 # Data: 06/06/2013
-# *Add: Riqueza, √çndices Shannon-Wiener e J de Pielou
-# *Add: fun√ß√£o similaridade(area1,area2)
+# *Add: Riqueza, Õndices Shannon-Wiener e J de Pielou
+# *Add: funÁ„o similaridade(area1,area2)
 #
 # Data: 10/06/2013
-# *Corrigido: equa√ß√£o da √°rea basal
-# *Add: desvios da densidade e √°rea basal
+# *Corrigido: equaÁ„o da ·rea basal
+# *Add: desvios da densidade e ·rea basal
 # *Add: escreve no .csv a densidade, ab, riq, shannon e pielou
 # *Add: testa se existe a variavel cap ou dap, pode-se usar tanto um quanto o outro
 #
 # Data: 12/06/2013
-# *Corrigido: equa√ß√£o de sorensen
+# *Corrigido: equaÁ„o de sorensen
 # *Add: possibilidade de colocar um nome para o arquivo.csv dos resultados
 #
 # Data: 17/06/2013
-# *Add: contabiliza CAP/DAP de m√∫ltiplos fustes no DoA e √°rea basal, max=10
+# *Add: contabiliza CAP/DAP de m˙ltiplos fustes no DoA e ·rea basal, max=10
 #
 # Data: 27/06/2013
-# *Add: multiplos fustes n√£o tem mais limite de n√∫mero (antes era 10)
+# *Add: multiplos fustes n„o tem mais limite de n˙mero (antes era 10)
 #
-# Observa√ß√µes:
+# ObservaÁıes:
 # a) O arquivo de entrada precisa das seguintes colunas com os nomes exatos em minusculo:
-#	- parc (identifica√ß√£o das parcelas, numerico ou letra, tanto faz)
-#	- spp (nome vulgar ou cient√≠fico do indiv√≠duo, ou utilizacao de rotulos - sp1, sp2, etc)
-#	- dap (di√¢metro a altura do peito)
+#	- parc (identificaÁ„o das parcelas, numerico ou letra, tanto faz)
+#	- spp (nome vulgar ou cientÌfico do indivÌduo, ou utilizacao de rotulos - sp1, sp2, etc)
+#	- dap (di‚metro a altura do peito)
 #	ou
-#	- cap (circunfer√™ncia a altura do peito)
-#	e quando tiver algum indiv√≠duo com mais de um fuste/rebrota, criar colunas com nome:
+#	- cap (circunferÍncia a altura do peito)
+#	e quando tiver algum indivÌduo com mais de um fuste/rebrota, criar colunas com nome:
 #	- cap ou dap1, dap2, dap3, dap4, etc.
-#	OBS: o script buscar√° pelas palavras-chave 'cap' e 'dap' nas colunas para localiza-los.
-#	Portanto, os dados n√£o podem possuir nenhuma coluna extra com 'cap' e 'dap' contidos em
-#	seu nome, ou causar√° diferen√ßa no c√°lculo, por ex.: uma coluna chamada 'dap_medio'.
+#	OBS: o script buscar· pelas palavras-chave 'cap' e 'dap' nas colunas para localiza-los.
+#	Portanto, os dados n„o podem possuir nenhuma coluna extra com 'cap' e 'dap' contidos em
+#	seu nome, ou causar· diferenÁa no c·lculo, por ex.: uma coluna chamada 'dap_medio'.
 #
-# b) O script cont√©m duas fun√ß√µes:
+# b) O script contÈm duas funÁıes:
 #	1) fitoR(variavel_input, area_de_cada_parcela_em_m2, 'nome_do_arquivo')
 #	2) similaridade(variavel_input1, variavel_input2)
-#	Para utiliza√ß√£o, carregue seus dados, execute as fun√ß√µes do IN√çCIO at√© o FIM das fun√ß√µes
-#	marcado abaixo com v√°rios ###. Para tal selecione o texto e aperte Ctrl+R. Em seguida,
-#	utilize a fun√ß√£o desejada.
-#	Na fun√ß√£o fitoR(), o nome_do_arquivo √© o nome para o arquivo .csv que cont√©m os resultados,
-#	colocar entre ' ', ou pode n√£o funcionar direito
+#	Para utilizaÁ„o, carregue seus dados, execute as funÁıes do INÕCIO atÈ o FIM das funÁıes
+#	marcado abaixo com v·rios ###. Para tal selecione o texto e aperte Ctrl+R. Em seguida,
+#	utilize a funÁ„o desejada.
+#	Na funÁ„o fitoR(), o nome_do_arquivo È o nome para o arquivo .csv que contÈm os resultados,
+#	colocar entre ' ', ou pode n„o funcionar direito
 # 
-# c) Mais algumas informa√ß√µes da sintaxe do uso no fim do arquivo
+# c) Mais algumas informaÁıes da sintaxe do uso no fim do arquivo
 #
 #
-# Tem d√∫vida ou sugest√£o? Quer contribuir? Me envie: ricds@hotmail.com
+# Tem d˙vida ou sugest„o? Quer contribuir? Me envie: ricds@hotmail.com
 #
 #-----------------------------------------------------------------------------------------------
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # 
-# IN√çCIO DAS FUN√á√ïES - CARREGAR A PARTIR DAQUI
+# INÕCIO DAS FUN«’ES - CARREGAR A PARTIR DAQUI
 # # # # # # # # # # # # # # # # # # # # # # # # 
 
-# Fun√ß√£o fitoR
+# FunÁ„o fitoR
  
 fitoR<-function(x,area,filename)
 {
@@ -102,7 +102,7 @@ FR<-(FA/sum(FA))*100
 #checa por NAs nos dados e transforma em zeros
 x[is.na(x)] <- 0
 
-#determina se existe "caps" ou "daps" e quais colunas est√£o
+#determina se existe "caps" ou "daps" e quais colunas est„o
 cols = grep('cap', colnames(x))
 ncols = length(cols)
 if (ncols>0) param="cap"
@@ -114,7 +114,7 @@ if (ncols2>0) param="dap"
 if (param=="dap") cols=cols2
 if (param=="dap") ncols=ncols2
 
-#calcula a area da se√ß√£o transversal para cada cap/dap e faz a soma por individuo
+#calcula a area da seÁ„o transversal para cada cap/dap e faz a soma por individuo
 i=1
 x$areasec=0
 while (i<=ncols)
@@ -157,26 +157,26 @@ SW=-sum(Pi)
 S=nrow(fito)
 J=SW/log(S)
 
-cat("Densidade total por √°rea = ",round(dta,digits=2),"¬±",round(dtadesv,digits=2),"ind/ha", fill=TRUE)
-cat("√Årea basal total por √°rea = ",round(abta,digits=2),"¬±",round(abdesv,digits=2),"m2/ha", fill=TRUE)
+cat("Densidade total por ·rea = ",round(dta,digits=2),"±",round(dtadesv,digits=2),"ind/ha", fill=TRUE)
+cat("¡rea basal total por ·rea = ",round(abta,digits=2),"±",round(abdesv,digits=2),"m2/ha", fill=TRUE)
 cat("Riqueza = ",S,"esp.", fill=TRUE)
-cat("√çndice de Shannon-Wiener (H') = ",SW, fill=TRUE)
+cat("Õndice de Shannon-Wiener (H') = ",SW, fill=TRUE)
 cat("Equabilidade de Pielou (J) = ",J, fill=TRUE)
 
 
 if(!missing(filename)) filename = paste(filename, ".csv", sep="") else filename = 'fito.csv'
 write.table(fito, file = filename, row.names = TRUE, dec=",", sep=";", quote=FALSE)
 write.table(' ', file = filename, sep=";", quote=TRUE, append=TRUE, row.names=FALSE, col.names=FALSE)
-cat("Densidade total por √°rea = ",round(dta,digits=2),"¬±",round(dtadesv,digits=2),"ind/ha", fill=TRUE, file=filename, append=TRUE)
-cat("√Årea basal total por √°rea = ",round(abta,digits=2),"¬±",round(abdesv,digits=2),"m2/ha", fill=TRUE, file=filename, append=TRUE)
+cat("Densidade total por ·rea = ",round(dta,digits=2),"±",round(dtadesv,digits=2),"ind/ha", fill=TRUE, file=filename, append=TRUE)
+cat("¡rea basal total por ·rea = ",round(abta,digits=2),"±",round(abdesv,digits=2),"m2/ha", fill=TRUE, file=filename, append=TRUE)
 cat("Riqueza = ",S,"esp.", fill=TRUE, file=filename, append=TRUE)
-cat("√çndice de Shannon-Wiener (H') = ",SW, fill=TRUE, file=filename, append=TRUE)
+cat("Õndice de Shannon-Wiener (H') = ",SW, fill=TRUE, file=filename, append=TRUE)
 cat("Equabilidade de Pielou (J) = ",J, fill=TRUE, file=filename, append=TRUE)
 
 
 }
 
-# Fun√ß√£o similaridade
+# FunÁ„o similaridade
 
 similaridade<-function(x,y)
 {
@@ -203,15 +203,15 @@ i = i + 1
 jac=(xyspp/(xyspp+xspp+yspp))
 sor=((2*xyspp)/((2*xyspp)+xspp+yspp))
 
-cat("A similaridade de Jaccard entre os dois s√≠tios √© de",jac,fill=TRUE)
-cat("A similaridade de Sorensen entre os dois s√≠tios √© de",sor,fill=TRUE)
-cat("As duas √°reas compartilham ",xyspp,"esp., sendo que a primeira tem",xspp,"esp. exclusivas e a segunda tem",yspp,fill=TRUE)
+cat("A similaridade de Jaccard entre os dois sÌtios È de",jac,fill=TRUE)
+cat("A similaridade de Sorensen entre os dois sÌtios È de",sor,fill=TRUE)
+cat("As duas ·reas compartilham ",xyspp,"esp., sendo que a primeira tem",xspp,"esp. exclusivas e a segunda tem",yspp,fill=TRUE)
 
 }
 
 
 # # # # # # # # # # # # # # # # # # # #
-# FIM DAS FUN√á√ïES - CARREGAR AT√â AQUI 
+# FIM DAS FUN«’ES - CARREGAR AT… AQUI 
 # # # # # # # # # # # # # # # # # # # #
 
 
@@ -223,7 +223,7 @@ cat("As duas √°reas compartilham ",xyspp,"esp., sendo que a primeira tem",xspp,"
 
 
 
-# APLICANDO AS FUN√á√ïES
+# APLICANDO AS FUN«’ES
  
 
 # ABRE CONJUNTO DE DADOS
@@ -232,15 +232,15 @@ cat("As duas √°reas compartilham ",xyspp,"esp., sendo que a primeira tem",xspp,"
 dados=read.table(file="http://dl.dropbox.com/u/36531552/fito1.txt",header=TRUE)
 dados2=read.table(file="http://dl.dropbox.com/u/36531552/fito1.txt",header=TRUE)
 
-# Dica: Para carregar um .csv salvo diretamente do office (separadores s√£o ponto-e-virgula e decimais s√£o virgula)
+# Dica: Para carregar um .csv salvo diretamente do office (separadores s„o ponto-e-virgula e decimais s„o virgula)
 # dados=read.table("Nome_do_Arquivo.csv", header=TRUE, sep=";", dec=",")
 
 
-# Fun√ß√£o fitoR()
-# Calcula os principais descritores ecol√≥gicos, √≠ndices de diversidade, etc.
+# FunÁ„o fitoR()
+# Calcula os principais descritores ecolÛgicos, Ìndices de diversidade, etc.
 # Escreve na tela o resultado e em arquivo .csv
 
-# Sintaxe do uso da fun√ß√£o fitoR():
+# Sintaxe do uso da funÁ„o fitoR():
 # fitoR(variavel_input, area_de_cada_parcela_em_m2, 'nome_do_arquivo')
 
 # Exemplos:
@@ -252,11 +252,11 @@ fitoR(dados, 250)
 fitoR(dados, 250, 'Fito_DadosLabDendro')
 
 
-# Fun√ß√£o similaridade()
-# Calcula a similaridade flor√≠stica entre os sitios, comparando as esp√©cies que os sitios compartilham ou n√£o
-# √çndices de Jaccard e Sorensen: Baseados na matriz de presen√ßa-aus√™ncia de esp√©cies
+# FunÁ„o similaridade()
+# Calcula a similaridade florÌstica entre os sitios, comparando as espÈcies que os sitios compartilham ou n„o
+# Õndices de Jaccard e Sorensen: Baseados na matriz de presenÁa-ausÍncia de espÈcies
 
-# Sintaxe do uso da fun√ß√£o similaridade()
+# Sintaxe do uso da funÁ„o similaridade()
 # similaridade(variavel_input1, variavel_input2)
 
 # Exemplo:
