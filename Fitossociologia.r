@@ -1,29 +1,10 @@
 #----------------------------------------------------------------------------------------------
 # Função para cálculo dos descritores fitossociológicos e similaridade entre sítios
+# 
+# Repositório: https://github.com/ricds/fitoR
 #
-# Autores originais:  Alexandre Gabriel Christo e Pedro Higuchi - 25/03/2012
+# Contribuições: Alexandre Gabriel Christo, Pedro Higuchi, Ricardo Dal'Agnol, Arthur Vinicius Rodrigues
 #
-# Modificações: Ricardo Dal'Agnol da Silva
-#
-# Data: 06/06/2013
-# *Add: Riqueza, Índices Shannon-Wiener e J de Pielou
-# *Add: função similaridade(area1,area2)
-#
-# Data: 10/06/2013
-# *Corrigido: equação da área basal
-# *Add: desvios da densidade e área basal
-# *Add: escreve no .csv a densidade, ab, riq, shannon e pielou
-# *Add: testa se existe a variavel cap ou dap, pode-se usar tanto um quanto o outro
-#
-# Data: 12/06/2013
-# *Corrigido: equação de sorensen
-# *Add: possibilidade de colocar um nome para o arquivo.csv dos resultados
-#
-# Data: 17/06/2013
-# *Add: contabiliza CAP/DAP de múltiplos fustes no DoA e área basal, max=10
-#
-# Data: 27/06/2013
-# *Add: multiplos fustes não tem mais limite de número (antes era 10)
 #
 # Observações:
 # a) O arquivo de entrada precisa das seguintes colunas com os nomes exatos em minusculo:
@@ -48,9 +29,6 @@
 #	colocar entre ' ', ou pode não funcionar direito
 # 
 # c) Mais algumas informações da sintaxe do uso no fim do arquivo
-#
-#
-# Tem dúvida ou sugestão? Quer contribuir? Me envie: ricds@hotmail.com
 #
 #-----------------------------------------------------------------------------------------------
 
@@ -128,6 +106,9 @@ i=i+1
 DoA<-tapply(x$areasec, x$spp, sum)/(area.parc/10000)
 DoR<-DoA/sum(DoA) *100
  
+# area basal por espécie
+AB<-tapply(x$areasec, x$spp, sum)
+
 #area basal
 abta=sum(DoA)
  
@@ -139,7 +120,8 @@ abdesv = sd(somag)
 VI<-(DR+DoR+FR)/3
 
 #monta a tabela
-fito=data.frame(N=N,DA=DA,DR=DR,DoA=DoA,DoR=DoR,FA=FA,FR=FR,VI=VI)
+fito=data.frame(N=N,AB=AB,DA=DA,DR=DR,DoA=DoA,DoR=DoR,FA=FA,FR=FR,VI=VI)
+fito$AB<-round(fito$AB,digits=2)
 fito$DR<-round(fito$DR,digits=2)
 fito$DA<-round(fito$DA,digits=2)
 fito$FR<-round(fito$FR,digits=2)
@@ -157,18 +139,18 @@ SW=-sum(Pi)
 S=nrow(fito)
 J=SW/log(S)
 
-cat("Densidade total por área = ",round(dta,digits=2),"±",round(dtadesv,digits=2),"ind/ha", fill=TRUE)
-cat("Área basal total por área = ",round(abta,digits=2),"±",round(abdesv,digits=2),"m2/ha", fill=TRUE)
+cat("Densidade total por área = ",round(dta,digits=2),"\u00B1",round(dtadesv,digits=2),"ind/ha", fill=TRUE)
+cat("Área basal total por área = ",round(abta,digits=2),"\u00B1",round(abdesv,digits=2),"m2/ha", fill=TRUE)
 cat("Riqueza = ",S,"esp.", fill=TRUE)
 cat("Índice de Shannon-Wiener (H') = ",SW, fill=TRUE)
 cat("Equabilidade de Pielou (J) = ",J, fill=TRUE)
 
 
 if(!missing(filename)) filename = paste(filename, ".csv", sep="") else filename = 'fito.csv'
-write.table(fito, file = filename, row.names = TRUE, dec=",", sep=";", quote=FALSE)
+write.table(fito, file = filename, row.names = TRUE, dec=",", sep=";", quote=FALSE, col.names=NA)
 write.table(' ', file = filename, sep=";", quote=TRUE, append=TRUE, row.names=FALSE, col.names=FALSE)
-cat("Densidade total por área = ",round(dta,digits=2),"±",round(dtadesv,digits=2),"ind/ha", fill=TRUE, file=filename, append=TRUE)
-cat("Área basal total por área = ",round(abta,digits=2),"±",round(abdesv,digits=2),"m2/ha", fill=TRUE, file=filename, append=TRUE)
+cat("Densidade total por área = ",round(dta,digits=2),"\u00B1",round(dtadesv,digits=2),"ind/ha", fill=TRUE, file=filename, append=TRUE)
+cat("Área basal total por área = ",round(abta,digits=2),"\u00B1",round(abdesv,digits=2),"m2/ha", fill=TRUE, file=filename, append=TRUE)
 cat("Riqueza = ",S,"esp.", fill=TRUE, file=filename, append=TRUE)
 cat("Índice de Shannon-Wiener (H') = ",SW, fill=TRUE, file=filename, append=TRUE)
 cat("Equabilidade de Pielou (J) = ",J, fill=TRUE, file=filename, append=TRUE)
@@ -225,17 +207,6 @@ cat("As duas áreas compartilham ",xyspp,"esp., sendo que a primeira tem",xspp,"e
 
 # APLICANDO AS FUNÇÕES
  
-
-# ABRE CONJUNTO DE DADOS
-
-# Conjunto de dados do http://labdendro.com/blog
-dados=read.table(file="http://dl.dropbox.com/u/36531552/fito1.txt",header=TRUE)
-dados2=read.table(file="http://dl.dropbox.com/u/36531552/fito1.txt",header=TRUE)
-
-# Dica: Para carregar um .csv salvo diretamente do office (separadores são ponto-e-virgula e decimais são virgula)
-# dados=read.table("Nome_do_Arquivo.csv", header=TRUE, sep=";", dec=",")
-
-
 # Função fitoR()
 # Calcula os principais descritores ecológicos, índices de diversidade, etc.
 # Escreve na tela o resultado e em arquivo .csv
@@ -243,13 +214,9 @@ dados2=read.table(file="http://dl.dropbox.com/u/36531552/fito1.txt",header=TRUE)
 # Sintaxe do uso da função fitoR():
 # fitoR(variavel_input, area_de_cada_parcela_em_m2, 'nome_do_arquivo')
 
-# Exemplos:
-
-# Sem nome do arquivo (gera um fito.csv)
-fitoR(dados, 250)
-
-# Com nome do arquivo (gera um Fito_DadosLabDendro.csv)
-fitoR(dados, 250, 'Fito_DadosLabDendro')
+# Exemplo do uso com os dados teste: area da parcela de 2500 m2 e vai gerar um arquivo "Fito_Exemplo.csv" como output
+dados=read.table("Dados_exemplo.csv", header=TRUE, sep=";", dec=",")
+fitoR(dados, 2500, 'Fito_Exemplo')
 
 
 # Função similaridade()
@@ -259,17 +226,5 @@ fitoR(dados, 250, 'Fito_DadosLabDendro')
 # Sintaxe do uso da função similaridade()
 # similaridade(variavel_input1, variavel_input2)
 
-# Exemplo:
-similaridade(dados, dados2)
-
-
-
-
-
-
-
-###
-
-dados=read.table("Dados_exemplo.csv", header=TRUE, sep=";", dec=",")
-fitoR(dados, 2500, 'Fito_Exemplo')
-
+# Exemplo do uso com o dado teste, obviamente vai resultar em similaridade igual a 1 pois é o mesmo input em ambas as variáveis
+similaridade(dados, dados)

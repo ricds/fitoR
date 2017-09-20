@@ -1,7 +1,15 @@
 # fitossociologia.R
 
-FunÃ§Ã£o para cÃ¡lculo dos descritores fitossociolÃ³gicos e similaridade entre sÃ­tios
+Função para cálculo dos descritores fitossociológicos e similaridade entre sítios
 
-Autores originais:  Alexandre Gabriel Christo e Pedro Higuchi - 25/03/2012
+Contribuições: Alexandre Gabriel Christo, Pedro Higuchi, Ricardo Dal'Agnol, Arthur Vinicius Rodrigues
 
-ModificaÃ§Ãµes: Ricardo Dal'Agnol da Silva
+<br>
+
+Esse script é colaborativo, então se tiver alguma contribuição por favor me envie por email (ricds@hotmail.com) ou faça um commit aqui no github. Obrigado!
+
+<br>
+
+Para citar:
+
+Dalagnol, Ricardo; Christo, Alexandre Gabriel; Higuchi, Pedro; Rodrigues, Arthur Vinicius. Função para cálculo dos descritores fitossociológicos e similaridade entre sítios. Disponível em: <https://github.com/ricds/fitoR>.
